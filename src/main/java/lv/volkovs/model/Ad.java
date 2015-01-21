@@ -1,4 +1,4 @@
-package lv.volkovs.crawler;
+package lv.volkovs.model;
 
 import java.util.HashMap;
 import java.util.Map;
