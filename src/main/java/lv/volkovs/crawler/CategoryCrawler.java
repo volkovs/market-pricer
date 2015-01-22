@@ -2,22 +2,25 @@ package lv.volkovs.crawler;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
-import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import lv.volkovs.model.Category;
 
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CategoryCrawler extends WebCrawler {
 
-    private static final Pattern EXTRA_URL = Pattern.compile("//w////");
+    private static final Pattern EXTRA_URL_PATTERN = Pattern.compile("\\w+/");
 
     private Category category;
 
     public CategoryCrawler(Category category) {
         this.category = category;
+    }
+
+    public CategoryCrawler() {
+        category = new Category();
+        category.setUrl(SiteModelSsLvImpl.ROOT_URL);
     }
 
     /**
@@ -34,7 +37,7 @@ public class CategoryCrawler extends WebCrawler {
             return false;
         }
         String extraUrl = href.replace(categoryUrl, "");
-        Matcher matcher = EXTRA_URL.matcher(extraUrl);
+        Matcher matcher = EXTRA_URL_PATTERN.matcher(extraUrl);
         return matcher.matches();
     }
 
