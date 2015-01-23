@@ -17,6 +17,11 @@ public class Category {
 
     private List<Ad> ads;
 
+    public Category(String url, String name) {
+        this.url = url;
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -55,5 +60,10 @@ public class Category {
 
     public void setAds(List<Ad> ads) {
         this.ads = ads;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

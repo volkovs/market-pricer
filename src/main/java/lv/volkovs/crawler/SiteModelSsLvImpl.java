@@ -10,11 +10,17 @@ import java.util.List;
  */
 public class SiteModelSsLvImpl {
 
-    public static SiteModelSsLvImpl SHARAN = new SiteModelSsLvImpl("transport", "cars", "volkswagen", "sharan");
-
     public static final String ROOT_URL = "https://www.ss.lv/lv/";
 
-    private static final String URL_TEMPLATE = "https://www.ss.lv/lv/%s/%s/%s/%s/sell/";
+    public static final String VW_URL = ROOT_URL + "transport/cars/volkswagen/";
+
+    public static final String SHARAN_URL = VW_URL + "sharan/";
+
+    public static final Category ROOT_CATEGORY = new Category(ROOT_URL, "root");
+
+    public static final Category VW_CATEGORY = new Category(VW_URL, "volkswagen");
+
+    public static final Category SHARAN_CATEGORY = new Category(SHARAN_URL, "sharan");
 
     private final String category;
 
@@ -49,10 +55,9 @@ public class SiteModelSsLvImpl {
 
     public List<Category> getCategories() {
         List<Category> result = Lists.newArrayList();
-        Category rootCategory = new Category();
-        rootCategory.setUrl(ROOT_URL);
 
-        new CategoryCrawler(rootCategory).run();
+
+        new CategoryCrawlerInternal().run();
         return result;
 
     }

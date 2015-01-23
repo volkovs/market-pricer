@@ -1,12 +1,10 @@
 package lv.volkovs;
 
-import edu.uci.ics.crawler4j.crawler.CrawlConfig;
-import edu.uci.ics.crawler4j.crawler.CrawlController;
-import edu.uci.ics.crawler4j.fetcher.PageFetcher;
-import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
-import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import lv.volkovs.crawler.CategoryCrawler;
 import lv.volkovs.crawler.SiteModelSsLvImpl;
+import lv.volkovs.model.Category;
+
+import java.util.List;
 
 /**
  * Created by Mihails Volkovs on 2015.01.21.
@@ -14,35 +12,17 @@ import lv.volkovs.crawler.SiteModelSsLvImpl;
 public class DataCollector {
 
     public static void main(String... args) throws Exception {
+//        CategoryCrawler crawler = new CategoryCrawler();
+//        crawler.scanCategories();
+//        crawler.scanCategories("transport");
+//        crawler.scanCategories("cars");
+//        crawler.scanCategories("volkswagen");
 
-        String crawlStorageFolder = "/data/crawl/root";
-        int numberOfCrawlers = 7;
+        CategoryCrawler crawler = new CategoryCrawler();
+        List<Category> categories = crawler.scanCategories(SiteModelSsLvImpl.VW_CATEGORY);
+        crawler.scanAdds(SiteModelSsLvImpl.SHARAN_CATEGORY);
 
-        CrawlConfig config = new CrawlConfig();
-        config.setCrawlStorageFolder(crawlStorageFolder);
-
-                /*
-                 * Instantiate the controller for this crawl.
-                 */
-        PageFetcher pageFetcher = new PageFetcher(config);
-        RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
-        RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
-        CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-
-                /*
-                 * For each crawl, you need to add some seed urls. These are the first
-                 * URLs that are fetched and then the crawler starts following links
-                 * which are found in these pages
-                 */
-        controller.addSeed(SiteModelSsLvImpl.ROOT_URL);
-
-                /*
-                 * Start the crawl. This is a blocking operation, meaning that your code
-                 * will reach the line after this only when crawling is finished.
-                 */
-        controller.start(CategoryCrawler.class, numberOfCrawlers);
-//
-//        new SiteModelSsLvImpl(null, null, null, null).getCategories();
+        System.out.println(categories);
     }
 
 }
