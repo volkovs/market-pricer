@@ -20,7 +20,7 @@ public class DataCollector {
 
         CategoryCrawler crawler = new CategoryCrawler();
         List<Category> categories = crawler.scanCategories(SiteModelSsLvImpl.VW_CATEGORY);
-        crawler.scanAdds(SiteModelSsLvImpl.SHARAN_CATEGORY);
+//        crawler.scanAdds(SiteModelSsLvImpl.SHARAN_CATEGORY);
 
         System.out.println(categories);
     }

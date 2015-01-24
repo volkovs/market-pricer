@@ -22,7 +22,7 @@ public class CategoryCrawler {
     }
 
     public List<Category> scanCategories(final String categoryName) throws Exception {
-        List<Category> previouslyFoundCategories = CategoryCrawlerInternal.results.get();
+        List<Category> previouslyFoundCategories = CategoryCrawlerInternal.getResults();
         Preconditions.checkState(previouslyFoundCategories != null);
         Optional<Category> found = previouslyFoundCategories.stream().filter((Category category) -> category.getName().equals(categoryName)).findFirst();
         if (found.isPresent()) {
@@ -32,8 +32,9 @@ public class CategoryCrawler {
     }
 
     public List<Category> scanCategories(Category category) throws Exception {
-        CategoryCrawlerInternal.results.set(new ArrayList<Category>());
-        CategoryCrawlerInternal.sourceCategory.set(category);
+        CategoryCrawlerInternal.resetResults();
+        CategoryCrawlerInternal.setParent(category);
+        CategoryCrawlerInternal.setVisitStrategy(new CategoryVisitStrategy());
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder("./target/root");
         PageFetcher pageFetcher = new PageFetcher(config);
@@ -42,7 +43,7 @@ public class CategoryCrawler {
         CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
         controller.addSeed(category.getUrl());
         controller.start(CategoryCrawlerInternal.class, 7);
-        return CategoryCrawlerInternal.results.get();
+        return CategoryCrawlerInternal.getResults();
     }
 
     public List<Category> scanAdds(Category sharanCategory) {
