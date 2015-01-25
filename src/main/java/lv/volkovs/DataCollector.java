@@ -19,10 +19,11 @@ public class DataCollector {
 //        crawler.scanCategories("volkswagen");
 
         CategoryCrawler crawler = new CategoryCrawler();
-        List<Category> categories = crawler.scanCategories(SiteModelSsLvImpl.VW_CATEGORY);
-//        crawler.scanAdds(SiteModelSsLvImpl.SHARAN_CATEGORY);
+//        List<Category> categories = crawler.scanCategories(SiteModelSsLvImpl.VW_CATEGORY);
+        crawler.scanAdds(SiteModelSsLvImpl.SHARAN_CATEGORY);
 
-        System.out.println(categories);
+//        System.out.println(categories);
+        System.out.println(SiteModelSsLvImpl.SHARAN_CATEGORY.getAds().size());
     }
 
 }

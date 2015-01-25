@@ -13,6 +13,6 @@ public interface VisitStrategy {
 
     public boolean shouldVisit(Page page, WebURL url, Category rootCategory);
 
-    public Category visit(Page page);
+    public Category visit(Page page, Category category);
 
 }

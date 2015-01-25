@@ -8,7 +8,6 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import lv.volkovs.model.Category;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +31,17 @@ public class CategoryCrawler {
     }
 
     public List<Category> scanCategories(Category category) throws Exception {
+        return scanInternal(category, new CategoryVisitStrategy());
+    }
+
+    public List<Category> scanAdds(Category parent) throws Exception {
+        return scanInternal(parent, new AdVisitStrategy());
+    }
+
+    private List<Category> scanInternal(Category category, VisitStrategy visitStrategy) throws Exception {
         CategoryCrawlerInternal.resetResults();
         CategoryCrawlerInternal.setParent(category);
-        CategoryCrawlerInternal.setVisitStrategy(new CategoryVisitStrategy());
+        CategoryCrawlerInternal.setVisitStrategy(visitStrategy);
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder("./target/root");
         PageFetcher pageFetcher = new PageFetcher(config);
@@ -44,9 +51,5 @@ public class CategoryCrawler {
         controller.addSeed(category.getUrl());
         controller.start(CategoryCrawlerInternal.class, 7);
         return CategoryCrawlerInternal.getResults();
-    }
-
-    public List<Category> scanAdds(Category sharanCategory) {
-        return null;
     }
 }

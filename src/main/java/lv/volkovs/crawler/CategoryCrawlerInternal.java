@@ -23,7 +23,10 @@ public class CategoryCrawlerInternal extends WebCrawler {
 
     @Override
     public void visit(Page page) {
-        getResults().add(visitStrategy.get().visit(page));
+        Category category = visitStrategy.get().visit(page, parent.get());
+        if (category != null) {
+            getResults().add(category);
+        }
     }
 
     public static List<Category> getResults() {

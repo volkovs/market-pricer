@@ -1,5 +1,7 @@
 package lv.volkovs.model;
 
+import com.google.common.collect.Lists;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ public class Category {
 
     private Category[] subCategories;
 
-    private List<Ad> ads;
+    private List<Ad> ads = Lists.newArrayList();
 
     public Category(String url, String name) {
         this.url = url;

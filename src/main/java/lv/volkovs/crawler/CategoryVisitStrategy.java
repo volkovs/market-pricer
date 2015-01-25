@@ -1,11 +1,9 @@
 package lv.volkovs.crawler;
 
-import com.google.common.collect.Lists;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.url.WebURL;
 import lv.volkovs.model.Category;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +30,7 @@ public class CategoryVisitStrategy implements VisitStrategy {
     }
 
     @Override
-    public Category visit(Page page) {
+    public Category visit(Page page, Category parent) {
         String url = page.getWebURL().getURL();
         return new Category(url, getCategoryName(url));
     }
