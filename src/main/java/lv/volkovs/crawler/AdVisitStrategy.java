@@ -20,6 +20,8 @@ public class AdVisitStrategy implements VisitStrategy {
 
     private static AtomicInteger counter = new AtomicInteger(0);
 
+    private static AdParser parser = new AdParser();
+
     @Override
     public boolean shouldVisit(Page page, WebURL url, Category parent) {
         if (getAddId(url.getURL(), parent) != null) {
@@ -42,7 +44,10 @@ public class AdVisitStrategy implements VisitStrategy {
 
             System.out.println("Html length: " + html.length());
 
-            Ad ad = new Ad("");
+            Ad ad = parser.parse(html);
+            ad.setUrl(url);
+            ad.setAdId(addId);
+
             parent.getAds().add(ad);
             counter.incrementAndGet();
         }
