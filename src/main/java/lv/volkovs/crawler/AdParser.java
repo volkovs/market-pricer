@@ -2,7 +2,9 @@ package lv.volkovs.crawler;
 
 import lv.volkovs.model.Ad;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -10,15 +12,27 @@ import java.util.regex.Pattern;
  */
 public class AdParser {
 
+    private static final Pattern PRICE_PATTERN = Pattern.compile("CALC_PRICE = (.+);CALC_VALUTA = 'eur'");
+
+    private static final Pattern FEATURE_PATTERN = Pattern.compile("height=20 class=\"oname12\" width=30>([^<]+):</td><td class=[^>]+ width=\"100%\">([^<]+)<");
+
     public Ad parse(String html) {
+        Ad ad = new Ad("");
 
-        Pattern pattern = Pattern.compile("CALC_PRICE = 3400.00;CALC_VALUTA = 'eur'");
-        String next = new Scanner(html).next(pattern);
-        System.out.println(next);
-//        "CALC_PRICE = 3400.00;CALC_VALUTA = 'eur'";
+        // setting price
+        Matcher matcher = PRICE_PATTERN.matcher(html);
+        if (matcher.find()) {
+            ad.setPrice(new BigDecimal(matcher.group(1).trim()));
+        }
 
-//        System.out.println(html);
-        return new Ad("");
+        // setting features
+        matcher = FEATURE_PATTERN.matcher(html);
+        while (matcher.find()) {
+            String feature = matcher.group(1).trim();
+            String value = matcher.group(2).trim();
+            ad.addFeature(feature, value);
+        }
+        return ad;
     }
 
 }
