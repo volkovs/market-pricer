@@ -1,5 +1,9 @@
 package lv.volkovs.model;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -8,7 +12,7 @@ import java.util.Map;
 /**
  * Created by Mihails Volkovs on 2015.01.20.
  */
-public class Ad {
+public class Ad implements Serializable {
 
     private String text;
 
@@ -58,5 +62,10 @@ public class Ad {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }

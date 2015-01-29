@@ -1,13 +1,18 @@
 package lv.volkovs.model;
 
 import com.google.common.collect.Lists;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Mihails Volkovs on 2015.01.20.
  */
-public class Category {
+public class Category implements Serializable {
+
+    private static final long serialVersionUID = -6944047293966434844L;
 
     private String name;
 
@@ -67,5 +72,9 @@ public class Category {
     @Override
     public String toString() {
         return name;
+    }
+
+    public String toMultilineString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }
