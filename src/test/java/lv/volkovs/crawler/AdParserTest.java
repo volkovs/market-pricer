@@ -30,11 +30,10 @@ public class AdParserTest {
         InputStream html = getClass().getClassLoader().getResourceAsStream("ad.html");
         Ad ad = parser.parse(IOUtils.toString(html));
 
-        assertEquals("", ad.getText());
+        assertEquals("Автомат 1.9 дизель. Новое ТО. Климат контроль, полная комплектация, кроме кожи. Состояние у машины как новое, нет ни ржавчины ни царапен. В машине полностью зделана ходовая, ни чего с низу не стучит. Вся электроника работает исправно работает кондиционер климат контроль, заменено масло фильтры. Машина полностью подготовлена к продаже хорошим людям", ad.getText());
         assertEquals(new BigDecimal("3400.00"), ad.getPrice());
 
         Iterator<Map.Entry<String, String>> iterator = ad.getFeatures().entrySet().iterator();
-//        assertFeature("Marka", "Volkswagen Sharan", iterator);
         assertFeature("Izlaiduma gads", "2003 aprīlis", iterator);
         assertFeature("Motors", "1.9 dīzelis", iterator);
         assertFeature("Ātr.kārba", "Automāts 5 ātrumi", iterator);

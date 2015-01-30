@@ -16,13 +16,21 @@ public class AdParser {
 
     private static final Pattern FEATURE_PATTERN = Pattern.compile("height=20 class=\"oname12\" width=30>([^<]+):</td><td class=[^>]+ width=\"100%\">([^<]+)<");
 
+    private static final Pattern AD_TEXT_PATTERN = Pattern.compile("style=\"padding-top:8px;\">(.+)<br><br>", Pattern.DOTALL);
+
     public Ad parse(String html) {
-        Ad ad = new Ad("");
+        Ad ad = new Ad();
 
         // setting price
         Matcher matcher = PRICE_PATTERN.matcher(html);
         if (matcher.find()) {
             ad.setPrice(new BigDecimal(matcher.group(1).trim()));
+        }
+
+        // setting ad text
+        matcher = AD_TEXT_PATTERN.matcher(html);
+        if (matcher.find()){
+            ad.setText(matcher.group(1).trim());
         }
 
         // setting features

@@ -2,9 +2,18 @@ package lv.volkovs;
 
 import lv.volkovs.crawler.CategoryCrawler;
 import lv.volkovs.crawler.SiteModelSsLvImpl;
+import lv.volkovs.model.Ad;
 import lv.volkovs.model.Category;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Created by Mihails Volkovs on 2015.01.21.
@@ -14,22 +23,18 @@ public class DataCollector {
     public static final String CATEGORY_FILE_NAME = "category.dat";
 
     public static void main(String... args) throws Exception {
-//        CategoryCrawler crawler = new CategoryCrawler();
-//        crawler.scanCategories();
-//        crawler.scanCategories("transport");
-//        crawler.scanCategories("cars");
-//        crawler.scanCategories("volkswagen");
-
         // crawling target site and saving results
 //        save(scan(SiteModelSsLvImpl.SHARAN_CATEGORY));
 
         // loading ads scanned previously
         Category category = load();
 
-        System.out.println(category.toMultilineString());
-
-//        System.out.println(categories);
-        System.out.println(SiteModelSsLvImpl.SHARAN_CATEGORY.getAds().size());
+        // filtering
+        Stream<Ad> adStream = category.getAds().stream()
+                .filter(ad -> ad.getPrice() != null && ad.getPrice().compareTo(BigDecimal.ZERO) > 0);
+        List<Object> ads = Arrays.asList(adStream.toArray());
+        System.out.println(ads.size());
+        System.out.println(ads);
     }
 
     private static Category load() throws IOException, ClassNotFoundException {

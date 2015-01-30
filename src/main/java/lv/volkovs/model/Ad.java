@@ -14,6 +14,8 @@ import java.util.Map;
  */
 public class Ad implements Serializable {
 
+    private static final long serialVersionUID = -943158700611464332L;
+
     private String text;
 
     private String url;
@@ -22,11 +24,7 @@ public class Ad implements Serializable {
 
     private Map<String, String> features = new LinkedHashMap();
 
-    private BigDecimal price;
-
-    public Ad(String text) {
-        this.text = text;
-    }
+    private BigDecimal price = BigDecimal.ZERO;
 
     public void addFeature(String key, String value) {
         features.put(key, value);
@@ -38,6 +36,10 @@ public class Ad implements Serializable {
 
     public String getText() {
         return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getAdId() {
@@ -61,7 +63,9 @@ public class Ad implements Serializable {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        if (price != null) {
+            this.price = price;
+        }
     }
 
     @Override
